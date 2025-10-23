@@ -1,0 +1,118 @@
+/*!
+ * \file integrator_brownian.hpp
+ * \author Rastko Sknepnek, sknepnek@gmail.com
+ * \date 30-Nov-2023
+ * \brief IntegratorBrownian class 
+*/
+
+#ifndef __INTEGRATOR_BROWNIAN_HPP__
+#define __INTEGRATOR_BROWNIAN_HPP__
+
+#include "constrainer.hpp"
+#include "constraint_none.hpp"
+#include "constraint_fixed.hpp"
+
+
+#include "integrator.hpp"
+
+#include <chrono>
+#include <utility>
+#include <map>
+#include <memory>
+#include <mpi.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
+#include <stdio.h>
+
+using namespace std::chrono;
+using std::map;
+using std::make_unique;
+
+namespace VMTutorial
+{
+
+  using ConstrainerType = unique_ptr<Constrainer>;
+
+  class IntegratorBrownian : public Integrator 
+  {
+
+    public:
+
+      IntegratorBrownian(System& sys, ForceCompute& fc, int seed, int size, int rank) : Integrator{sys, fc, seed},
+                                                                    _T{1.0},
+                                                                    _gamma{1.0},
+                                                                    mstep(0),
+                                                                    mEnergy(0),
+                                                                    //alpha{0.1},
+                                                                    mpi_size(0),
+                                                                    mpi_rank(0)
+                                                                    
+      { 
+        map<string,int>& vert_types = _sys.vert_types();
+        map<string,int>& cell_types = _sys.cell_types();
+        for (int i = 0; i < vert_types.size(); i++)  _constant_force.push_back(Vec(0.0,0.0));
+
+        _constrainer = make_unique<Constrainer>();
+        _constrainer->add<ConstraintNone>("none");
+        _constrainer->add<ConstraintFixed>("fixed");
+      }
+
+      //Topology& _topology;
+
+      void step() override;
+      void set_params(const params_type& params) override 
+      { 
+        for (auto& p : params)
+        {
+          if (p.first == "T")
+            _T = p.second;
+          if (p.first == "gamma")
+            _gamma = p.second;
+        }
+      };
+      void set_type_params(const string& type, const params_type& params) override { }
+      void set_string_params(const string_params_type& params) override { }
+      void set_external_force(const string& vtype, const Vec& f) override 
+      { 
+        _constant_force[_sys.vert_types()[vtype]] = f;
+      }
+      
+      void set_flag(const string& flag) override 
+      {  
+        
+      }
+
+      double min (double a, double b)
+      {
+        if (a>b)
+        {
+          return b;
+        } 
+        else
+        {
+          return a;
+        }
+      }
+
+      
+    private:
+
+      ConstrainerType _constrainer; // Apply various constraints
+      double _T;                 // temperature
+      double _gamma;             // friction 
+      vector<Vec> _constant_force;
+      double mstep;
+      double mEnergy;
+      double alpha;
+      int mpi_size;
+      int mpi_rank;
+      //MPI_Comm comm_global;
+      
+    };
+
+    //void export_Brownian(py::module&);
+
+}
+
+#endif
+
