@@ -97,7 +97,7 @@ namespace VMTutorial
           if (at_tensile_timestep)
           {
             // Apply tensile stretch
-            if (v.data().vert_type == 0) v.r += Vec(0.0102,0.0);
+            if (v.data().vert_type == 0) v.r += Vec(0.03,0.0);
 
             //if (v.data().vert_type == 2) v.r += Vec(-0.03,0.0);
             //cout<<v.r<<endl;
