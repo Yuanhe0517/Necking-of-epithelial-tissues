@@ -5,10 +5,6 @@ Modifications were made by **Yuan He**, 2025, to enhance and adapt the tutorial 
 
 The original **VMTutorial** code is licensed under the MIT License, as detailed in the LICENSE file.
 
-# Tutorial on Vertex Model
-
-A showcase implementation of the vertex model for tissue mechanics.
-
 ## Project description
 
 This tutorial provides a simple C++ implementation of the basic vertex model for tissue mechanics. 
