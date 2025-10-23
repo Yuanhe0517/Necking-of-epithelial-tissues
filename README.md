@@ -1,6 +1,7 @@
 # Modified Version of VMTutorial
 
 This project is based on the **VMTutorial** originally created by Rastko Sknepnek.  
+You can find the original repository here: [VMTutorial GitHub Repository](https://github.com/sknepneklab/VMTutorial). 
 Modifications were made by **Yuan He**, 2025, to enhance and adapt the tutorial for further research and development purposes.
 
 The original **VMTutorial** code is licensed under the MIT License, as detailed in the LICENSE file.
