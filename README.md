@@ -8,11 +8,9 @@ The original **VMTutorial** code is licensed under the MIT License, as detailed 
 
 ## Project description
 
-This tutorial provides a simple C++ implementation of the basic vertex model for tissue mechanics. 
-Python interface is provided using the [pybind11](https://github.com/pybind/pybind11) library.
+This project is based on the **VMTutorial** originally created by Rastko Sknepnek, providing a simple C++ implementation of the basic vertex model for tissue mechanics. Python interface is provided using the [pybind11](https://github.com/pybind/pybind11) library.
 
-The aim of this tutorial is to be clear and pedagogical even it if it comes at some performance cost. 
-This tutorial is not intended for research, but could be used to develop research-quality tools.
+This project uses the vertex model to simulate and study large deformations of tissues, specifically focusing on the **necking** phenomenon in tissue mechanics. The simulation explores the mechanics behind tissue behavior under significant deformations, providing insights into complex biomechanical processes.
 
 ## Requirements
 
