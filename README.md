@@ -1,8 +1,9 @@
-![alt text](VMTutorial.png)
+# Modified Version of VMTutorial
 
-Lorentz Centre workshop Computational Advances in Active Matter (11 - 15 December 2023)
-The Erwin Schrödinger International Institute for Mathematics and Physics summer school on Non-equilibrium Processes in Physics and Biology
-(19 - 30 August 2024)
+This project is based on the **VMTutorial** originally created by Rastko Sknepnek.  
+Modifications were made by **Yuan He**, 2025, to enhance and adapt the tutorial for further research and development purposes.
+
+The original **VMTutorial** code is licensed under the MIT License, as detailed in the LICENSE file.
 
 # Tutorial on Vertex Model
 
