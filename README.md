@@ -56,9 +56,13 @@ This should significantly speed up the build process.
 
 ## Running 
 
-If the installation was successful, one can type (e.g., is an IPython console):
 
-```
-from VMToolkit.VM import *
-from VMToolkit.VMAnalysis import *
-```
+If the installation was successful, you can run the simulation as follows:
+
+1. Navigate to the `example/TissueStretch/` directory:
+
+   ```bash
+   cd example/TissueStretch/
+
+2. Run the simulation using: 
+    python run.py
