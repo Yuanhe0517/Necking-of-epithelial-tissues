@@ -8,6 +8,8 @@
 
 #include "dump.hpp"
 
+#include <set>
+
 namespace VMTutorial
 {
 	void Dump::dump_cells(const string &vtk_file, bool binary_output, bool draw_periodic)
@@ -30,6 +32,16 @@ namespace VMTutorial
 		vtkSmartPointer<vtkDoubleArray> stress_xy = vtkSmartPointer<vtkDoubleArray>::New();
 		vtkSmartPointer<vtkDoubleArray> centerx = vtkSmartPointer<vtkDoubleArray>::New();
 		vtkSmartPointer<vtkDoubleArray> centery = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> shape_qxx = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> shape_qxy = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> shape_anisotropy = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> shape_theta = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> long_axis_theta = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> long_axis = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> cell_aspect_ratio = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> hexatic_psi6_re = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> hexatic_psi6_im = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> hexatic_psi6_abs = vtkSmartPointer<vtkDoubleArray>::New();
 		
 		ids->SetName("Id");
 		ids->SetNumberOfComponents(1);
@@ -59,6 +71,26 @@ namespace VMTutorial
 		centerx->SetNumberOfComponents(1);
 		centery->SetName("Centery");
 		centery->SetNumberOfComponents(1);
+		shape_qxx->SetName("ShapeQxx");
+		shape_qxx->SetNumberOfComponents(1);
+		shape_qxy->SetName("ShapeQxy");
+		shape_qxy->SetNumberOfComponents(1);
+		shape_anisotropy->SetName("ShapeAnisotropy");
+		shape_anisotropy->SetNumberOfComponents(1);
+		shape_theta->SetName("ShapeTheta");
+		shape_theta->SetNumberOfComponents(1);
+		long_axis_theta->SetName("LongAxisTheta");
+		long_axis_theta->SetNumberOfComponents(1);
+		long_axis->SetName("LongAxis");
+		long_axis->SetNumberOfComponents(3);
+		cell_aspect_ratio->SetName("CellAspectRatio");
+		cell_aspect_ratio->SetNumberOfComponents(1);
+		hexatic_psi6_re->SetName("HexaticPsi6Re");
+		hexatic_psi6_re->SetNumberOfComponents(1);
+		hexatic_psi6_im->SetName("HexaticPsi6Im");
+		hexatic_psi6_im->SetNumberOfComponents(1);
+		hexatic_psi6_abs->SetName("HexaticPsi6Abs");
+		hexatic_psi6_abs->SetNumberOfComponents(1);
 		
 
 		int id = 0;
@@ -144,6 +176,19 @@ namespace VMTutorial
 					stress_xy->InsertNextValue(this->get_face_stress_xy(f));
 					centerx->InsertNextValue(_sys.mesh().get_face_centre(f).x);
 					centery->InsertNextValue(_sys.mesh().get_face_centre(f).y);
+					shape_qxx->InsertNextValue(this->get_face_shape_qxx(f));
+					shape_qxy->InsertNextValue(this->get_face_shape_qxy(f));
+					shape_anisotropy->InsertNextValue(this->get_face_shape_anisotropy(f));
+					shape_theta->InsertNextValue(this->get_face_shape_theta(f));
+					double g1, g2, aspect, theta, vx, vy;
+					this->get_face_gyration_long_axis(f, g1, g2, aspect, theta, vx, vy);
+					long_axis_theta->InsertNextValue(theta);
+					double axis[3] = {vx, vy, 0.0};
+					long_axis->InsertNextTuple(axis);
+					cell_aspect_ratio->InsertNextValue(aspect);
+					hexatic_psi6_re->InsertNextValue(this->get_face_hexatic_psi6_re(f));
+					hexatic_psi6_im->InsertNextValue(this->get_face_hexatic_psi6_im(f));
+					hexatic_psi6_abs->InsertNextValue(this->get_face_hexatic_psi6_abs(f));
 
 				}
 			}
@@ -167,6 +212,16 @@ namespace VMTutorial
 		polydata->GetCellData()->AddArray(stress_xy);
 		polydata->GetCellData()->AddArray(centerx);
 		polydata->GetCellData()->AddArray(centery);
+		polydata->GetCellData()->AddArray(shape_qxx);
+		polydata->GetCellData()->AddArray(shape_qxy);
+		polydata->GetCellData()->AddArray(shape_anisotropy);
+		polydata->GetCellData()->AddArray(shape_theta);
+		polydata->GetCellData()->AddArray(long_axis_theta);
+		polydata->GetCellData()->AddArray(long_axis);
+		polydata->GetCellData()->AddArray(cell_aspect_ratio);
+		polydata->GetCellData()->AddArray(hexatic_psi6_re);
+		polydata->GetCellData()->AddArray(hexatic_psi6_im);
+		polydata->GetCellData()->AddArray(hexatic_psi6_abs);
 		// Write the file
 		vtkSmartPointer<vtkXMLPolyDataWriter> writer = vtkSmartPointer<vtkXMLPolyDataWriter>::New();
 		writer->SetFileName(vtk_file.c_str());
@@ -199,10 +254,14 @@ namespace VMTutorial
 		vtkSmartPointer<vtkIntArray> edge_id = vtkSmartPointer<vtkIntArray>::New();
 		vtkSmartPointer<vtkDoubleArray> lens = vtkSmartPointer<vtkDoubleArray>::New();
 		vtkSmartPointer<vtkDoubleArray> tension = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> active_edge_tension = vtkSmartPointer<vtkDoubleArray>::New();
+		vtkSmartPointer<vtkDoubleArray> phi = vtkSmartPointer<vtkDoubleArray>::New();
 		vtkSmartPointer<vtkDoubleArray> l0 = vtkSmartPointer<vtkDoubleArray>::New();
 		vtkSmartPointer<vtkIntArray> true_ids = vtkSmartPointer<vtkIntArray>::New();
 		vtkSmartPointer<vtkIntArray> edge_type = vtkSmartPointer<vtkIntArray>::New();
-				
+		vtkSmartPointer<vtkIntArray> face_outer = vtkSmartPointer<vtkIntArray>::New();
+		vtkSmartPointer<vtkIntArray> boundary_tension_applied = vtkSmartPointer<vtkIntArray>::New();
+
 
 		ids->SetName("Id");
 		ids->SetNumberOfComponents(1);
@@ -214,13 +273,20 @@ namespace VMTutorial
 		lens->SetNumberOfComponents(1);
 		tension->SetName("Tension");
 		tension->SetNumberOfComponents(1);
+		active_edge_tension->SetName("ActiveEdgeTension");
+		active_edge_tension->SetNumberOfComponents(1);
+		phi->SetName("Phi");
+		phi->SetNumberOfComponents(1);
 		l0->SetName("l0");
 		l0->SetNumberOfComponents(1);
 		true_ids->SetName("TrueId");
 		true_ids->SetNumberOfComponents(1);
 		edge_type->SetName("Type");
 		edge_type->SetNumberOfComponents(1);
-		
+		face_outer->SetName("FaceOuter");
+		face_outer->SetNumberOfComponents(1);
+		boundary_tension_applied->SetName("BoundaryTensionApplied");
+		boundary_tension_applied->SetNumberOfComponents(1);
 
 		int id = 0;
 		map<int, int> id_map;
@@ -302,8 +368,39 @@ namespace VMTutorial
 						if (fabs(he_tension) < 1e-10)
 							he_tension = _force_compute.tension(he);
 						tension->InsertNextValue(he_tension);
+						active_edge_tension->InsertNextValue(_force_compute.tension("active_edge_tension", he));
+						phi->InsertNextValue(e.data().phi);
+						face_outer->InsertNextValue(he.face()->outer ? 1 : 0);
 						l0->InsertNextValue(e.data().l0);
 						edge_type->InsertNextValue(e.data().edge_type);
+
+						// In the per-junction insertion block (same place as tension/l0/type):
+						int bt_applied = 0;
+
+						const auto& v_from = *he.from();
+						const auto& v_to   = *he.to();
+						const auto& t_from = v_from.data().type_name;
+						const auto& t_to   = v_to.data().type_name;
+
+						// // Keep this condition IDENTICAL to ForcePerimeter::compute
+						// if (he.edge()->boundary &&
+						// 	v_from.boundary && v_to.boundary &&
+						// 	t_from != "left" && t_from != "right" &&
+						// 	t_to   != "left" && t_to   != "right")
+						// {
+						// 	bt_applied = 1;
+						// }
+
+						// Keep this condition IDENTICAL to ForcePerimeter::compute
+						if (he.edge()->boundary &&
+							v_from.boundary && v_to.boundary &&
+							(t_from == "regular" || t_to == "regular"))
+						{
+							bt_applied = 1;
+						}
+
+						boundary_tension_applied->InsertNextValue(bt_applied);
+
 					}
 				} 
 			}
@@ -314,8 +411,13 @@ namespace VMTutorial
 		polydata->GetCellData()->AddArray(he_id);
 		polydata->GetCellData()->AddArray(edge_id);
 		polydata->GetCellData()->AddArray(tension);
+		polydata->GetCellData()->AddArray(active_edge_tension);
+		polydata->GetCellData()->AddArray(phi);
 		polydata->GetCellData()->AddArray(l0);
 		polydata->GetCellData()->AddArray(edge_type);
+		polydata->GetCellData()->AddArray(face_outer);
+		polydata->GetCellData()->AddArray(boundary_tension_applied);
+
 
 		// Write the file
 		vtkSmartPointer<vtkXMLPolyDataWriter> writer = vtkSmartPointer<vtkXMLPolyDataWriter>::New();
@@ -507,7 +609,30 @@ namespace VMTutorial
 		if (_sys.periodic())
 			j["mesh"]["box"] = *(_sys.mesh().box());
 		j["mesh"]["time_step"] = _sys.time_step();
+		j["mesh"]["simulation_time"] = _sys.simulation_time();
 		j["mesh"]["vertices"] = _sys.mesh().vertices();
+		json edges = json::array();
+		std::set<std::pair<int, int>> seen_edges;
+		for (const auto& f : _sys.mesh().faces())
+		{
+			if (f.erased)
+				continue;
+
+			for (const auto he : f.circulator())
+			{
+				int i = he.from()->id;
+				int j = he.to()->id;
+				if (i > j)
+					std::swap(i, j);
+
+				auto [it, inserted] = seen_edges.insert({i, j});
+				if (!inserted)
+					continue;
+
+				edges.push_back(*(he.edge()));
+			}
+		}
+		j["mesh"]["edges"] = edges;
 		j["mesh"]["faces"] = _sys.mesh().faces();
 		jout << setw(2) << j << endl;
 		jout.close();
@@ -530,7 +655,12 @@ namespace VMTutorial
 	// Edge
 	void to_json(json &j, const Edge<Property> &e)
 	{
-		j = json{{"i", e.i}, {"j", e.j}, {"boundary", e.boundary}, {"l0", e.data().l0}};
+		int i = e.he()->from()->id;
+		int k = e.he()->to()->id;
+		j = json{
+			{"i", i},
+			{"j", k},
+			{"phi", e.data().phi}};
 	}
 
 	void from_json(const json &j, Edge<Property> &e)
@@ -636,3 +766,4 @@ namespace VMTutorial
 			.def("set_sfc", &Dump::set_sfc);
 	}
 }
+

@@ -1,67 +1,238 @@
-# Modified Version of VMTutorial
+# Reproducibility code for epithelial tissue necking
 
-This project is based on the **VMTutorial** originally created by Rastko Sknepnek.  
-You can find the original repository here: [VMTutorial GitHub Repository](https://github.com/sknepneklab/VMTutorial). 
-Modifications were made by **Yuan He**, 2025, to enhance and adapt the tutorial for further research and development purposes.
+This repository contains the vertex-model simulation code, initial tissue
+configuration, and visualization notebook used for the epithelial-tissue
+necking simulations in the manuscript submitted to PLOS Computational Biology.
 
-The original **VMTutorial** code is licensed under the MIT License, as detailed in the LICENSE file.
+The code is a research fork of the vertex-model tutorial codebase by Rastko
+Sknepnek:
 
-## Project description
+- Upstream project: <https://github.com/sknepneklab/VMTutorial>
+- License: MIT License, retained in `LICENSE`
 
-This project is based on the **VMTutorial** originally created by Rastko Sknepnek, providing a simple C++ implementation of the basic vertex model for tissue mechanics. Python interface is provided using the [pybind11](https://github.com/pybind/pybind11) library.
+The original `VMToolkit` package structure is retained. The paper-specific
+workflow is organized in `TissueStretch/`.
 
-This project uses the vertex model to simulate and study large deformations of tissues, specifically focusing on the **necking** phenomenon in tissue mechanics. The simulation explores the mechanics behind tissue behavior under significant deformations, providing insights into complex biomechanical processes.
+## Repository Contents
+
+```text
+.
+|-- VMToolkit/
+|   |-- VM/                         C++ vertex-model engine and pybind11 module
+|   |   `-- src/                    model forces, integrators, topology, dump code
+|   `-- VMAnalysis/                 Python analysis helpers inherited from VMToolkit
+|-- TissueStretch/
+|   |-- honeycomb.json              initial tissue configuration
+|   |-- run.py                      main tissue-stretch simulation script
+|   `-- view_vtp.ipynb              notebook for opening and visualizing .vtp output
+|-- config_builder/
+|   |-- 10x3/honeycomb.json         small initial tissue geometry
+|   `-- 30x10/honeycomb.json        large initial tissue geometry
+|-- CMakeLists.txt
+|-- pyproject.toml
+|-- setup.py
+`-- LICENSE
+```
+
+Build products, Python caches, and generated simulation outputs are not needed
+for reproduction and can be regenerated.
 
 ## Requirements
 
-The package is tested on Linux and Mac OSX.
+The code was developed for Linux with Python 3.8 or newer. A Linux environment
+is recommended because the Python extension is built from C++ with
+CMake/scikit-build.
 
-You will need:
+Required system tools:
 
-- boost 
-- pyvista 
+- C++ compiler with C++14 support
+- CMake
+- Ninja
 
-Depending on your local Python installation, both can be installed through conda or pip.
+Required Python packages:
+
+- `setuptools`
+- `scikit-build`
+- `pybind11`
+- `cmake`
+- `ninja`
+- `boost`
+- `numpy`
+- `pyvista`
+
+The build may also compile or locate VTK through the inherited VMTutorial build
+configuration. If a system VTK is already installed, setting `VTK_DIR` before
+installation can speed up the build.
 
 ## Installation
 
-Clone the code repository into the VMTutorial directory.
+Clone the repository and install the package from the repository root:
 
-From the VMTutorial directory type:
-
-```
-pip install .
-```
-
-This should build and install the package into your local site-packages directory. This may take a while since VTK library is cloned and
-compiled locally. This is due to common problems with system installations of the VTK library. If, however, a working installation of VTK 
-is available, one can add
-
-```
-export VTK_DIR=/path/to/vtk/cmake
+```bash
+git clone https://github.com/Yuanhe0517/Necking-of-epithelial-tissues.git
+cd Necking-of-epithelial-tissues
+python -m pip install --upgrade pip
+python -m pip install .
 ```
 
-before calling 'pip'
+Check that the compiled module imports correctly:
 
-For example, if VTK 9.2 is installed in $HOME/software/VTK/9.2, one would set VTK_DIR=$HOME/software/VTK/9.2/lib/cmake/vtk-9.2
+```bash
+python -c "from VMToolkit.VM import Tissue, System, Force, Integrate; print('VMToolkit import OK')"
+```
 
-This should significantly speed up the build process.
+After modifying C++ source files in `VMToolkit/VM/src/`, rebuild and reinstall
+the extension:
 
-## Structure
+```bash
+python -m pip install --force-reinstall --no-cache-dir .
+```
 
-- examples - contains several examples on how to run a simulation
-- VMToolkit - the source code for the vertex model simulation and data analysis
-- config_builder - several tools for building initial configurations
+## Running the Tissue-Stretch Simulation
 
-## Running 
+The reproduction workflow is in `TissueStretch/`.
 
+Run a short test:
 
-If the installation was successful, you can run the simulation as follows:
+```bash
+cd TissueStretch
+python run.py --input honeycomb.json --dt 0.1 --nrun 20 --loading-increment 0.03
+```
 
-1. Navigate to the `example/TissueStretch/` directory:
+Main arguments:
 
-   ```bash
-   cd example/TissueStretch/
+- `--input`: initial configuration JSON, default `honeycomb.json`
+- `--dt`: initial integration time step, default `0.1`
+- `--nrun`: number of outer loading/relaxation blocks, default `4000`
+- `--seed`: random seed; if omitted, the code uses the internal default
+- `--loading-increment`: boundary displacement applied after each saved relaxed state, default `0.03`
 
-2. Run the simulation using: 
-    python run.py
+The `--input` argument can also point to one of the supplied geometries in
+`config_builder/`:
+
+```bash
+python run.py --input ../config_builder/10x3/honeycomb.json --dt 0.1 --nrun 20 --loading-increment 0.03
+python run.py --input ../config_builder/30x10/honeycomb.json --dt 0.1 --nrun 20 --loading-increment 0.03
+```
+
+The mechanical parameters are defined near the top of `TissueStretch/run.py`:
+
+- area stiffness `kappa = 1.0`
+- perimeter stiffness `gamma = 0.16`
+- perimeter parameter `lambda = 0.56`
+- boundary tension parameter `boundary_tension = 0`
+
+T1 transitions are controlled by:
+
+```python
+topology.set_params({'min_edge_len': 0.1, 'new_edge_len': 0.12})
+```
+
+## Numerical Procedure
+
+Each outer iteration calls:
+
+```python
+simulation.run(n)
+```
+
+where `n = 4000` for the first six outer iterations and `n = 3000` thereafter.
+This is the maximum number of relaxation steps attempted in one call.
+
+Mechanical equilibrium is detected in `IntegratorBrownian::step()` using the
+successive total-energy difference:
+
+```text
+|E_k - E_{k-1}| < 1e-7
+```
+
+When this criterion is met, `simulation.run(n)` returns `true`, and `run.py`
+writes the relaxed configuration. The loading increment is not applied until the
+next call to the integrator. Thus the saved `.vtp` files correspond to relaxed
+states before the next boundary displacement is applied.
+
+If equilibrium is not reached within the maximum number of relaxation steps,
+the time step is reduced in `Simulation::run()`:
+
+```text
+dt <- 0.9 dt
+```
+
+and the next outer iteration continues with the reduced time step.
+
+## Outputs
+
+The simulation writes output files in `TissueStretch/` when launched from that
+directory.
+
+Typical outputs:
+
+- `cells_step_00000000.vtp`, `cells_step_00000001.vtp`, ...: relaxed cell configurations
+- `600 steps.json`, `1200 steps.json`, ...: selected restart/state files
+- `final steps.json`: final simulation state
+- `data.csv`: T1 counts appended when equilibrium is reached
+
+The `.vtp` files are VTK XML PolyData files. They can be opened in ParaView or
+loaded in Python with PyVista.
+
+## Visualizing VTP Files
+
+Use the notebook:
+
+```text
+TissueStretch/view_vtp.ipynb
+```
+
+or load a `.vtp` file directly with PyVista:
+
+```python
+import pyvista as pv
+
+mesh = pv.read("cells_step_00000000.vtp")
+mesh.plot(show_edges=True)
+```
+
+## Initial Configurations
+
+The default initial configuration copied into the simulation directory is:
+
+```text
+TissueStretch/honeycomb.json
+```
+
+Two additional initial tissue geometries are provided:
+
+```text
+config_builder/10x3/honeycomb.json
+config_builder/30x10/honeycomb.json
+```
+
+The `10x3` configuration is useful for quick checks. The `30x10` configuration
+is the larger tissue geometry used for production-scale stretch simulations.
+Both files can be passed directly to `TissueStretch/run.py` with `--input`.
+
+## Reproducibility Notes
+
+For exact reproduction, record:
+
+- Git commit hash of this repository
+- input configuration file
+- `dt`
+- `nrun`
+- `loading_increment`
+- T1 parameters `min_edge_len` and `new_edge_len`
+- convergence criterion
+- Python version
+- CMake version
+- compiler version
+
+## Citation and Attribution
+
+If using this repository, cite the accompanying manuscript and acknowledge that
+the simulation engine is derived from VMTutorial by Rastko Sknepnek:
+
+<https://github.com/sknepneklab/VMTutorial>
+
+The upstream VMTutorial code is distributed under the MIT License. Paper-specific
+modifications and the tissue-stretch workflow were added by Yuan He for the
+epithelial tissue necking study.

@@ -374,6 +374,8 @@ namespace VMTutorial
 
 		he1->set_to(v2->id);
 		he1->pair()->set_from(v2->id);
+		he1->edge()->i = he1->from()->id;
+		he1->edge()->j = he1->to()->id;
 
 		// cout<<"new_he1"<<he1->from()->r<<he1->to()->r<<endl;
 		// cout<<"new_he1_pair"<<he1->pair()->from()->r<<he1->pair()->to()->r<<endl;
@@ -383,6 +385,8 @@ namespace VMTutorial
 
 		he3->set_to(v1->id);
 		he3->pair()->set_from(v1->id);
+		he3->edge()->i = he3->from()->id;
+		he3->edge()->j = he3->to()->id;
 
 		// cout<<"new_he3"<<he3->from()->r<<he3->to()->r<<endl;
 		// cout<<"new_he3_pair"<<he3->pair()->from()->r<<he3->pair()->to()->r<<endl;
@@ -398,6 +402,8 @@ namespace VMTutorial
 
 		he->set_face(he1->pair()->face()->id);
 		hep->set_face(he2->pair()->face()->id);
+		e.i = he->from()->id;
+		e.j = he->to()->id;
 
 		he->face()->set_nsides(this->face_sides(*(he->face())));
 		hep->face()->set_nsides(this->face_sides(*(hep->face())));
@@ -442,6 +448,17 @@ namespace VMTutorial
 		{	//cout<<"process vertices"<<endl;
 			if (!v.erased)
 				v.coordination = this->coordination(v);
+
+			bool is_bnd = false;
+			for (auto he : v.circulator()) {
+				if (he.face()->outer || he.pair()->face()->outer) {
+					is_bnd = true;
+					break;
+    			}
+
+			}
+		
+			v.boundary = is_bnd;
 		}
 
 		for (auto& e : _edges)

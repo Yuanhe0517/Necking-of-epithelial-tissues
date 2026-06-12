@@ -1,0 +1,1987 @@
+{
+    "mesh": {
+        "box": {
+            "lx": 4,
+            "ly": 9,
+            "periodic": false
+        },
+        "faces": [
+            {
+                "A0": 0.9987004956442138,
+                "P0": 3.7199999999999993,
+                "id": 0,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    1,
+                    3,
+                    0,
+                    5,
+                    2,
+                    10
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.719999999999999,
+                "id": 1,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    6,
+                    8,
+                    1,
+                    10,
+                    7,
+                    18
+                ]
+            },
+            {
+                "A0": 0.998700495644214,
+                "P0": 3.719999999999999,
+                "id": 2,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    7,
+                    10,
+                    2,
+                    12,
+                    9,
+                    20
+                ]
+            },
+            {
+                "A0": 0.998700495644214,
+                "P0": 3.7199999999999993,
+                "id": 3,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    9,
+                    12,
+                    4,
+                    13,
+                    11,
+                    21
+                ]
+            },
+            {
+                "A0": 0.9987004956442146,
+                "P0": 3.7199999999999998,
+                "id": 4,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    14,
+                    16,
+                    6,
+                    18,
+                    15,
+                    26
+                ]
+            },
+            {
+                "A0": 0.9987004956442148,
+                "P0": 3.7199999999999998,
+                "id": 5,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    15,
+                    18,
+                    7,
+                    20,
+                    17,
+                    28
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.719999999999999,
+                "id": 6,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    17,
+                    20,
+                    9,
+                    21,
+                    19,
+                    29
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.7199999999999998,
+                "id": 7,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    22,
+                    24,
+                    14,
+                    26,
+                    23,
+                    34
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.7199999999999998,
+                "id": 8,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    23,
+                    26,
+                    15,
+                    28,
+                    25,
+                    36
+                ]
+            },
+            {
+                "A0": 0.9987004956442148,
+                "P0": 3.7199999999999998,
+                "id": 9,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    25,
+                    28,
+                    17,
+                    29,
+                    27,
+                    37
+                ]
+            },
+            {
+                "A0": 0.9987004956442144,
+                "P0": 3.7199999999999998,
+                "id": 10,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    30,
+                    32,
+                    22,
+                    34,
+                    31,
+                    42
+                ]
+            },
+            {
+                "A0": 0.9987004956442143,
+                "P0": 3.7199999999999998,
+                "id": 11,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    31,
+                    34,
+                    23,
+                    36,
+                    33,
+                    44
+                ]
+            },
+            {
+                "A0": 0.9987004956442143,
+                "P0": 3.719999999999999,
+                "id": 12,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    33,
+                    36,
+                    25,
+                    37,
+                    35,
+                    45
+                ]
+            },
+            {
+                "A0": 0.9987004956442144,
+                "P0": 3.7199999999999998,
+                "id": 13,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    38,
+                    40,
+                    30,
+                    42,
+                    39,
+                    50
+                ]
+            },
+            {
+                "A0": 0.9987004956442143,
+                "P0": 3.7199999999999998,
+                "id": 14,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    39,
+                    42,
+                    31,
+                    44,
+                    41,
+                    52
+                ]
+            },
+            {
+                "A0": 0.9987004956442143,
+                "P0": 3.7199999999999998,
+                "id": 15,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    41,
+                    44,
+                    33,
+                    45,
+                    43,
+                    53
+                ]
+            },
+            {
+                "A0": 0.9987004956442143,
+                "P0": 3.7199999999999998,
+                "id": 16,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    46,
+                    48,
+                    38,
+                    50,
+                    47,
+                    58
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.7199999999999998,
+                "id": 17,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    47,
+                    50,
+                    39,
+                    52,
+                    49,
+                    60
+                ]
+            },
+            {
+                "A0": 0.9987004956442144,
+                "P0": 3.7199999999999998,
+                "id": 18,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    49,
+                    52,
+                    41,
+                    53,
+                    51,
+                    61
+                ]
+            },
+            {
+                "A0": 0.9987004956442147,
+                "P0": 3.7199999999999998,
+                "id": 19,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    54,
+                    56,
+                    46,
+                    58,
+                    55,
+                    66
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.7199999999999998,
+                "id": 20,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    55,
+                    58,
+                    47,
+                    60,
+                    57,
+                    68
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.7199999999999998,
+                "id": 21,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    57,
+                    60,
+                    49,
+                    61,
+                    59,
+                    69
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.719999999999999,
+                "id": 22,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    62,
+                    64,
+                    54,
+                    66,
+                    63,
+                    74
+                ]
+            },
+            {
+                "A0": 0.9987004956442146,
+                "P0": 3.7199999999999998,
+                "id": 23,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    63,
+                    66,
+                    55,
+                    68,
+                    65,
+                    76
+                ]
+            },
+            {
+                "A0": 0.9987004956442146,
+                "P0": 3.7199999999999998,
+                "id": 24,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    65,
+                    68,
+                    57,
+                    69,
+                    67,
+                    77
+                ]
+            },
+            {
+                "A0": 0.9987004956442139,
+                "P0": 3.7199999999999993,
+                "id": 25,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    70,
+                    72,
+                    62,
+                    74,
+                    71,
+                    80
+                ]
+            },
+            {
+                "A0": 0.998700495644214,
+                "P0": 3.719999999999999,
+                "id": 26,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    71,
+                    74,
+                    63,
+                    76,
+                    73,
+                    82
+                ]
+            },
+            {
+                "A0": 0.9987004956442145,
+                "P0": 3.719999999999999,
+                "id": 27,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    73,
+                    76,
+                    65,
+                    77,
+                    75,
+                    83
+                ]
+            },
+            {
+                "A0": 0.9987004956442149,
+                "P0": 3.7199999999999998,
+                "id": 28,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    78,
+                    80,
+                    71,
+                    82,
+                    79,
+                    84
+                ]
+            },
+            {
+                "A0": 0.9987004956442138,
+                "P0": 3.7199999999999993,
+                "id": 29,
+                "nsides": 6,
+                "outer": false,
+                "type": "passive",
+                "vertices": [
+                    79,
+                    82,
+                    73,
+                    83,
+                    81,
+                    85
+                ]
+            },
+            {
+                "A0": 0.0,
+                "P0": 0.0,
+                "id": 30,
+                "nsides": 50,
+                "outer": true,
+                "type": "passive",
+                "vertices": [
+                    0,
+                    3,
+                    1,
+                    8,
+                    6,
+                    16,
+                    14,
+                    24,
+                    22,
+                    32,
+                    30,
+                    40,
+                    38,
+                    48,
+                    46,
+                    56,
+                    54,
+                    64,
+                    62,
+                    72,
+                    70,
+                    80,
+                    78,
+                    84,
+                    79,
+                    85,
+                    81,
+                    83,
+                    75,
+                    77,
+                    67,
+                    69,
+                    59,
+                    61,
+                    51,
+                    53,
+                    43,
+                    45,
+                    35,
+                    37,
+                    27,
+                    29,
+                    19,
+                    21,
+                    11,
+                    13,
+                    4,
+                    12,
+                    2,
+                    5
+                ]
+            }
+        ],
+        "vertices": [
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 0,
+                "neighbours": [
+                    3,
+                    5
+                ],
+                "r": [
+                    5.369357503463519,
+                    -1.2400000000000002
+                ],
+                "type": "right"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 1,
+                "neighbours": [
+                    3,
+                    10,
+                    8
+                ],
+                "r": [
+                    4.295486002770815,
+                    -1.2399999999999993
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 2,
+                "neighbours": [
+                    5,
+                    10,
+                    12
+                ],
+                "r": [
+                    4.832421753117167,
+                    -0.3099999999999996
+                ],
+                "type": "right"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 3,
+                "neighbours": [
+                    1,
+                    0
+                ],
+                "r": [
+                    4.832421753117167,
+                    -1.5499999999999998
+                ],
+                "type": "right"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 4,
+                "neighbours": [
+                    12,
+                    13
+                ],
+                "r": [
+                    5.369357503463519,
+                    0.6200000000000001
+                ],
+                "type": "right"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 5,
+                "neighbours": [
+                    0,
+                    2
+                ],
+                "r": [
+                    5.369357503463519,
+                    -0.6200000000000001
+                ],
+                "type": "right"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 6,
+                "neighbours": [
+                    8,
+                    18,
+                    16
+                ],
+                "r": [
+                    3.2216145020781113,
+                    -1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 7,
+                "neighbours": [
+                    10,
+                    18,
+                    20
+                ],
+                "r": [
+                    3.758550252424463,
+                    -0.3099999999999996
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 8,
+                "neighbours": [
+                    6,
+                    1
+                ],
+                "r": [
+                    3.758550252424463,
+                    -1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 9,
+                "neighbours": [
+                    12,
+                    20,
+                    21
+                ],
+                "r": [
+                    4.295486002770815,
+                    0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 10,
+                "neighbours": [
+                    2,
+                    1,
+                    7
+                ],
+                "r": [
+                    4.295486002770815,
+                    -0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 11,
+                "neighbours": [
+                    13,
+                    21
+                ],
+                "r": [
+                    4.832421753117167,
+                    1.5499999999999998
+                ],
+                "type": "right"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 12,
+                "neighbours": [
+                    2,
+                    9,
+                    4
+                ],
+                "r": [
+                    4.832421753117167,
+                    0.3099999999999996
+                ],
+                "type": "right"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 13,
+                "neighbours": [
+                    4,
+                    11
+                ],
+                "r": [
+                    5.369357503463519,
+                    1.2400000000000002
+                ],
+                "type": "right"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 14,
+                "neighbours": [
+                    16,
+                    26,
+                    24
+                ],
+                "r": [
+                    2.1477430013854075,
+                    -1.24
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 15,
+                "neighbours": [
+                    18,
+                    26,
+                    28
+                ],
+                "r": [
+                    2.6846787517317594,
+                    -0.31000000000000005
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 16,
+                "neighbours": [
+                    14,
+                    6
+                ],
+                "r": [
+                    2.6846787517317594,
+                    -1.5500000000000003
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 17,
+                "neighbours": [
+                    20,
+                    28,
+                    29
+                ],
+                "r": [
+                    3.2216145020781113,
+                    0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 18,
+                "neighbours": [
+                    7,
+                    6,
+                    15
+                ],
+                "r": [
+                    3.2216145020781113,
+                    -0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 19,
+                "neighbours": [
+                    21,
+                    29
+                ],
+                "r": [
+                    3.758550252424463,
+                    1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 20,
+                "neighbours": [
+                    9,
+                    7,
+                    17
+                ],
+                "r": [
+                    3.758550252424463,
+                    0.3099999999999996
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 21,
+                "neighbours": [
+                    11,
+                    9,
+                    19
+                ],
+                "r": [
+                    4.295486002770815,
+                    1.2399999999999993
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 22,
+                "neighbours": [
+                    24,
+                    34,
+                    32
+                ],
+                "r": [
+                    1.0738715006927038,
+                    -1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 23,
+                "neighbours": [
+                    26,
+                    34,
+                    36
+                ],
+                "r": [
+                    1.6108072510390556,
+                    -0.30999999999999983
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 24,
+                "neighbours": [
+                    22,
+                    14
+                ],
+                "r": [
+                    1.6108072510390556,
+                    -1.55
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 25,
+                "neighbours": [
+                    28,
+                    36,
+                    37
+                ],
+                "r": [
+                    2.1477430013854075,
+                    0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 26,
+                "neighbours": [
+                    15,
+                    14,
+                    23
+                ],
+                "r": [
+                    2.1477430013854075,
+                    -0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 27,
+                "neighbours": [
+                    29,
+                    37
+                ],
+                "r": [
+                    2.6846787517317594,
+                    1.5500000000000003
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 28,
+                "neighbours": [
+                    17,
+                    15,
+                    25
+                ],
+                "r": [
+                    2.6846787517317594,
+                    0.31000000000000005
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 29,
+                "neighbours": [
+                    19,
+                    17,
+                    27
+                ],
+                "r": [
+                    3.2216145020781113,
+                    1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 30,
+                "neighbours": [
+                    32,
+                    42,
+                    40
+                ],
+                "r": [
+                    -0.0,
+                    -1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 31,
+                "neighbours": [
+                    34,
+                    42,
+                    44
+                ],
+                "r": [
+                    0.5369357503463519,
+                    -0.30999999999999994
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 32,
+                "neighbours": [
+                    30,
+                    22
+                ],
+                "r": [
+                    0.5369357503463519,
+                    -1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 33,
+                "neighbours": [
+                    36,
+                    44,
+                    45
+                ],
+                "r": [
+                    1.0738715006927038,
+                    0.62
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 34,
+                "neighbours": [
+                    23,
+                    22,
+                    31
+                ],
+                "r": [
+                    1.0738715006927038,
+                    -0.6199999999999999
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 35,
+                "neighbours": [
+                    37,
+                    45
+                ],
+                "r": [
+                    1.6108072510390556,
+                    1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 36,
+                "neighbours": [
+                    25,
+                    23,
+                    33
+                ],
+                "r": [
+                    1.6108072510390556,
+                    0.31000000000000005
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 37,
+                "neighbours": [
+                    27,
+                    25,
+                    35
+                ],
+                "r": [
+                    2.1477430013854075,
+                    1.2400000000000002
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 38,
+                "neighbours": [
+                    40,
+                    50,
+                    48
+                ],
+                "r": [
+                    -1.0738715006927038,
+                    -1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 39,
+                "neighbours": [
+                    42,
+                    50,
+                    52
+                ],
+                "r": [
+                    -0.5369357503463519,
+                    -0.30999999999999994
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 40,
+                "neighbours": [
+                    38,
+                    30
+                ],
+                "r": [
+                    -0.5369357503463519,
+                    -1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 41,
+                "neighbours": [
+                    44,
+                    52,
+                    53
+                ],
+                "r": [
+                    -0.0,
+                    0.62
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 42,
+                "neighbours": [
+                    31,
+                    30,
+                    39
+                ],
+                "r": [
+                    -0.0,
+                    -0.62
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 43,
+                "neighbours": [
+                    45,
+                    53
+                ],
+                "r": [
+                    0.5369357503463519,
+                    1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 44,
+                "neighbours": [
+                    33,
+                    31,
+                    41
+                ],
+                "r": [
+                    0.5369357503463519,
+                    0.30999999999999994
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 45,
+                "neighbours": [
+                    35,
+                    33,
+                    43
+                ],
+                "r": [
+                    1.0738715006927038,
+                    1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 46,
+                "neighbours": [
+                    48,
+                    58,
+                    56
+                ],
+                "r": [
+                    -2.1477430013854075,
+                    -1.2400000000000002
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 47,
+                "neighbours": [
+                    50,
+                    58,
+                    60
+                ],
+                "r": [
+                    -1.6108072510390556,
+                    -0.31000000000000005
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 48,
+                "neighbours": [
+                    46,
+                    38
+                ],
+                "r": [
+                    -1.6108072510390556,
+                    -1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 49,
+                "neighbours": [
+                    52,
+                    60,
+                    61
+                ],
+                "r": [
+                    -1.0738715006927038,
+                    0.6199999999999999
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 50,
+                "neighbours": [
+                    39,
+                    38,
+                    47
+                ],
+                "r": [
+                    -1.0738715006927038,
+                    -0.62
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 51,
+                "neighbours": [
+                    53,
+                    61
+                ],
+                "r": [
+                    -0.5369357503463519,
+                    1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 52,
+                "neighbours": [
+                    41,
+                    39,
+                    49
+                ],
+                "r": [
+                    -0.5369357503463519,
+                    0.30999999999999994
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 53,
+                "neighbours": [
+                    43,
+                    41,
+                    51
+                ],
+                "r": [
+                    -0.0,
+                    1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 54,
+                "neighbours": [
+                    56,
+                    66,
+                    64
+                ],
+                "r": [
+                    -3.2216145020781113,
+                    -1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 55,
+                "neighbours": [
+                    58,
+                    66,
+                    68
+                ],
+                "r": [
+                    -2.6846787517317594,
+                    -0.31000000000000005
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 56,
+                "neighbours": [
+                    54,
+                    46
+                ],
+                "r": [
+                    -2.6846787517317594,
+                    -1.5500000000000003
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 57,
+                "neighbours": [
+                    60,
+                    68,
+                    69
+                ],
+                "r": [
+                    -2.1477430013854075,
+                    0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 58,
+                "neighbours": [
+                    47,
+                    46,
+                    55
+                ],
+                "r": [
+                    -2.1477430013854075,
+                    -0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 59,
+                "neighbours": [
+                    61,
+                    69
+                ],
+                "r": [
+                    -1.6108072510390556,
+                    1.55
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 60,
+                "neighbours": [
+                    49,
+                    47,
+                    57
+                ],
+                "r": [
+                    -1.6108072510390556,
+                    0.30999999999999983
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 61,
+                "neighbours": [
+                    51,
+                    49,
+                    59
+                ],
+                "r": [
+                    -1.0738715006927038,
+                    1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 62,
+                "neighbours": [
+                    64,
+                    74,
+                    72
+                ],
+                "r": [
+                    -4.295486002770815,
+                    -1.2399999999999993
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 63,
+                "neighbours": [
+                    66,
+                    74,
+                    76
+                ],
+                "r": [
+                    -3.758550252424463,
+                    -0.3099999999999996
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 64,
+                "neighbours": [
+                    62,
+                    54
+                ],
+                "r": [
+                    -3.758550252424463,
+                    -1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 65,
+                "neighbours": [
+                    68,
+                    76,
+                    77
+                ],
+                "r": [
+                    -3.2216145020781113,
+                    0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 66,
+                "neighbours": [
+                    55,
+                    54,
+                    63
+                ],
+                "r": [
+                    -3.2216145020781113,
+                    -0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 67,
+                "neighbours": [
+                    69,
+                    77
+                ],
+                "r": [
+                    -2.6846787517317594,
+                    1.5500000000000003
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 68,
+                "neighbours": [
+                    57,
+                    55,
+                    65
+                ],
+                "r": [
+                    -2.6846787517317594,
+                    0.31000000000000005
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 69,
+                "neighbours": [
+                    59,
+                    57,
+                    67
+                ],
+                "r": [
+                    -2.1477430013854075,
+                    1.24
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 70,
+                "neighbours": [
+                    72,
+                    80
+                ],
+                "r": [
+                    -5.369357503463519,
+                    -1.2400000000000002
+                ],
+                "type": "left"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 71,
+                "neighbours": [
+                    74,
+                    80,
+                    82
+                ],
+                "r": [
+                    -4.832421753117167,
+                    -0.3099999999999996
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 72,
+                "neighbours": [
+                    70,
+                    62
+                ],
+                "r": [
+                    -4.832421753117167,
+                    -1.5499999999999998
+                ],
+                "type": "left"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 73,
+                "neighbours": [
+                    76,
+                    82,
+                    83
+                ],
+                "r": [
+                    -4.295486002770815,
+                    0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 74,
+                "neighbours": [
+                    63,
+                    62,
+                    71
+                ],
+                "r": [
+                    -4.295486002770815,
+                    -0.6200000000000001
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 75,
+                "neighbours": [
+                    77,
+                    83
+                ],
+                "r": [
+                    -3.758550252424463,
+                    1.5499999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 76,
+                "neighbours": [
+                    65,
+                    63,
+                    73
+                ],
+                "r": [
+                    -3.758550252424463,
+                    0.3099999999999996
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 77,
+                "neighbours": [
+                    67,
+                    65,
+                    75
+                ],
+                "r": [
+                    -3.2216145020781113,
+                    1.2399999999999998
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 78,
+                "neighbours": [
+                    80,
+                    84
+                ],
+                "r": [
+                    -5.906293253809871,
+                    -0.3100000000000005
+                ],
+                "type": "left"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 79,
+                "neighbours": [
+                    82,
+                    84,
+                    85
+                ],
+                "r": [
+                    -5.369357503463519,
+                    0.6200000000000001
+                ],
+                "type": "left"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 80,
+                "neighbours": [
+                    71,
+                    70,
+                    78
+                ],
+                "r": [
+                    -5.369357503463519,
+                    -0.6200000000000001
+                ],
+                "type": "left"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 81,
+                "neighbours": [
+                    83,
+                    85
+                ],
+                "r": [
+                    -4.832421753117167,
+                    1.5499999999999998
+                ],
+                "type": "left"
+            },
+            {
+                "boundary": false,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 82,
+                "neighbours": [
+                    73,
+                    71,
+                    79
+                ],
+                "r": [
+                    -4.832421753117167,
+                    0.3099999999999996
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 3,
+                "erased": false,
+                "id": 83,
+                "neighbours": [
+                    75,
+                    73,
+                    81
+                ],
+                "r": [
+                    -4.295486002770815,
+                    1.2399999999999993
+                ],
+                "type": "regular"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 84,
+                "neighbours": [
+                    79,
+                    78
+                ],
+                "r": [
+                    -5.906293253809871,
+                    0.3100000000000005
+                ],
+                "type": "left"
+            },
+            {
+                "boundary": true,
+                "constraint": "none",
+                "coordination": 2,
+                "erased": false,
+                "id": 85,
+                "neighbours": [
+                    81,
+                    79
+                ],
+                "r": [
+                    -5.369357503463519,
+                    1.2400000000000002
+                ],
+                "type": "left"
+            }
+        ]
+    }
+}

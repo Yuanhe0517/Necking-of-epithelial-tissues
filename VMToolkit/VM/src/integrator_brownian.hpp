@@ -41,6 +41,8 @@ namespace VMTutorial
       IntegratorBrownian(System& sys, ForceCompute& fc, int seed, int size, int rank) : Integrator{sys, fc, seed},
                                                                     _T{1.0},
                                                                     _gamma{1.0},
+                                                                    loading_increment{0.24},
+                                                                    apply_tensile_next_step{false},
                                                                     mstep(0),
                                                                     mEnergy(0),
                                                                     //alpha{0.1},
@@ -68,6 +70,8 @@ namespace VMTutorial
             _T = p.second;
           if (p.first == "gamma")
             _gamma = p.second;
+          if (p.first == "loading_increment")
+            loading_increment = p.second;
         }
       };
       void set_type_params(const string& type, const params_type& params) override { }
@@ -100,6 +104,8 @@ namespace VMTutorial
       ConstrainerType _constrainer; // Apply various constraints
       double _T;                 // temperature
       double _gamma;             // friction 
+      double loading_increment;  // boundary displacement applied after each relaxed state is saved
+      bool apply_tensile_next_step;
       vector<Vec> _constant_force;
       double mstep;
       double mEnergy;
@@ -115,4 +121,3 @@ namespace VMTutorial
 }
 
 #endif
-

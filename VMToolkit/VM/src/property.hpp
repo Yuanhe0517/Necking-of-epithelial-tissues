@@ -52,6 +52,7 @@ namespace VMTutorial
 		{
 			double tension = 0.0;
 			double l0; // Native length of an edge
+			double phi = 0.0;
 		};
 		struct FaceProperty : public BaseProperty::FaceProperty
 		{
@@ -62,6 +63,7 @@ namespace VMTutorial
 			double kappa;		// area modulus
 			double gamma;		// perimeter modulus
 			double lambda;		// line tension
+			double phi = 0.0;	// Cell phase used for A0 oscillations
 			Vec n;				// Self-propulsion direction
 			Vec rc;				// centre of the face
 			vector<int> neighs; // indices of neighbouring faces

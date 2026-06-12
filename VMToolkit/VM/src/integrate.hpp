@@ -20,6 +20,7 @@
 #include "force_compute.hpp"
 #include "integrator.hpp"
 #include "integrator_brownian.hpp"
+#include "integrator_brownian_relax.hpp"
 
 using std::runtime_error;
 using std::transform;
@@ -157,6 +158,8 @@ namespace VMTutorial
         transform(name.begin(), name.end(), name.begin(), ::tolower);
         if (name == "brownian")
           this->add<IntegratorBrownian, System&, ForceCompute&, int, int, int>(name, _sys, _force_compute, _seed, mpi_size,mpi_rank);
+        else if (name == "brownian_relax")
+          this->add<IntegratorBrownianRelax, System&, ForceCompute&, int>(name, _sys, _force_compute, _seed);
         else 
           throw runtime_error("Unknown integrator type : " + name + ".");
         integ_order.push_back(name);

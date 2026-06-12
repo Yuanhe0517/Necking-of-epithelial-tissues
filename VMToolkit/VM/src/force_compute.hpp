@@ -12,12 +12,15 @@
 #include <algorithm>
 #include <map>
 #include <string>
+#include <fstream>
 
 #include "system.hpp"
 #include "class_factory.hpp"
 #include "force.hpp"
 #include "force_area.hpp"
 #include "force_perimeter.hpp"
+#include "force_active_bulk_stress.hpp"
+#include "force_active_edge_tension.hpp"
 #include "force_self_propulsion.hpp"
 
  
@@ -52,18 +55,21 @@ namespace VMTutorial
       
       void compute(Vertex<Property> &v)
       {
-        //int circulator_length = 0; // 初始化计数器
+        ///int circulator_length = 0; // 初始化计数器
         v.data().force = Vec(0.0,0.0);
+        //std::ofstream log("force_compute_log.txt", std::ios::app);
         //cout<<v.id<<v.r<<endl;;
         for (auto he : v.circulator())
         { //circulator_length++; // 每次循环增加计数器
           //cout<<he.from()->r<<he.to()->r<<endl;
           //cout<<he.prev()->from()->r<<he.prev()->to()->r<<endl;
           //cout<<he.face()->id<<he.prev()->face()->id<<endl;
-          //cout<< "compute force in hpp" << endl;
+          // if (log.is_open())
+          //   log << "compute force in hpp, he.face().outer=" << he.face()->outer << std::endl;
           v.data().force += this->compute(v, he);
         }
-        //cout<<circulator_length;
+        // if (log.is_open())
+        //   log << "circulator_length=" << circulator_length << std::endl;
       }
 
       Vec compute(Vertex<Property> &v, const HalfEdge<Property> &he)
@@ -81,6 +87,14 @@ namespace VMTutorial
         for (auto& f : this->factory_map)
           T += f.second->tension(he);
         return T;
+      }
+
+      double tension(const string& fname, HalfEdge<Property>& he)
+      {
+        auto it = this->factory_map.find(fname);
+        if (it == this->factory_map.end())
+          return 0.0;
+        return it->second->tension(he);
       }
 
       double energy(const Face<Property>& face)
@@ -131,6 +145,10 @@ namespace VMTutorial
           this->add<ForceArea,System&>(name, _sys);
         else if (name == "perimeter")
           this->add<ForcePerimeter,System&>(name, _sys);
+        else if (name == "active_bulk_stress")
+          this->add<ForceActiveBulkStress,System&>(name, _sys);
+        else if (name == "active_edge_tension")
+          this->add<ForceActiveEdgeTension,System&>(name, _sys);
         else if (name == "self-propulsion")
           this->add<ForceSelfPropulsion,System&>(name, _sys);
         else 

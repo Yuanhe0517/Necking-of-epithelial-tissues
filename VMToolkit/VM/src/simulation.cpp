@@ -46,7 +46,7 @@ namespace VMTutorial
         //_dump.dump_cells("2");
         _integ.set_eq(false);
         //_integ._dt = 0.08;
-        _integ.set_dt(0.12);
+        _integ.set_dt(0.1);
         appendValueToCSV(t);
         t=0;
         cout<<"Equil!"<<_integ._dt<<endl;
@@ -71,6 +71,47 @@ namespace VMTutorial
     //   std::cout << " --> Completed " << sim_step << " simulation steps " << std::endl;  
     
   
+  // bool Simulation::run(int steps, bool topological_change, bool old_style)
+  // {
+  //   double progress = 0.0;
+  //   for (int i = sim_step; i < sim_step + steps; i++)
+  //   {
+  //     int t1_increment = 0;
+  //     if (topological_change)
+  //     {
+  //         t1_increment = _topology.T1();
+  //     }
+  //     t += t1_increment;
+  //     t1_last_increment = t1_increment;
+  //     t1_increment_history.push_back(t1_increment);
+  //     t1_total_history.push_back(t);
+  //     _integ.apply();
+  //     _sys.set_topology_change(false);
+
+  //     if (this->print_freq > 0) 
+  //     {
+  //       if (old_style)
+  //       {
+  //         if (i % this->print_freq == 0)
+  //           cout << "step : " << i << endl;
+  //       }
+  //       else 
+  //       {
+  //         progress_bar(progress, "\r");
+  //         progress += 1.0 / steps;
+  //       }
+        
+  //     }
+  //   }
+  //   if (this->print_freq > 0 && !old_style)
+  //     progress_bar(progress, " ");
+    
+  //   sim_step += steps;
+  //   if (this->print_freq > 0 && !old_style)
+  //     std::cout << " --> Completed " << sim_step << " simulation steps " << std::endl;  
+    
+  //   return false;
+  // }
 
   void Simulation::progress_bar(double progress, const string& end_of_line)
   {
@@ -110,6 +151,10 @@ namespace VMTutorial
           .def(py::init<System&,Integrate&,ForceCompute&,Topology&>())
           .def_readwrite("print_freq", &Simulation::print_freq)
           .def_readwrite("bar_width", &Simulation::bar_width)
+          .def_readwrite("t1_count", &Simulation::t)
+          .def_readwrite("t1_last_increment", &Simulation::t1_last_increment)
+          .def_readwrite("t1_increment_history", &Simulation::t1_increment_history)
+          .def_readwrite("t1_total_history", &Simulation::t1_total_history)
           .def("run", &Simulation::run, py::arg("steps"), py::arg("topological_change") = true, py::arg("old_style") = false)
           .def("print_version", &Simulation::print_version);
   }  
@@ -139,4 +184,3 @@ PYBIND11_MODULE(vm, m)
   VMTutorial::export_Dump(m);
   VMTutorial::export_Simulation(m);
 }
-

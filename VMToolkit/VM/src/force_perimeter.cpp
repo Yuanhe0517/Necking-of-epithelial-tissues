@@ -9,6 +9,19 @@
 
 namespace VMTutorial
 {
+  namespace
+  {
+    template <typename P>
+    bool boundary_tension_applies(const HalfEdge<P>& he)
+    {
+      const auto& v_from = *he.from();
+      const auto& v_to = *he.to();
+      return he.edge()->boundary &&
+             v_from.boundary && v_to.boundary &&
+             (v_from.data().type_name == "regular" || v_to.data().type_name == "regular");
+    }
+  }
+
   // Vec ForcePerimeter::compute(const Vertex<Property>& v, const HalfEdge<Property>& he)
   // {
   //   Vec l = he.to()->r - v.r;                    // vector along the junction pointing away from the vertex
@@ -48,6 +61,8 @@ namespace VMTutorial
     double lambda_1;//, lambda_2;
     
     double  gamma_1 = (f.outer)    ? 0.0 : _gamma[f.data().face_type];
+    double boundary_tension = (f.outer || !_boundary_tension_enabled) ? 0.0 : _boundary_tension;
+
     if (!_lambda_P0)
     {
       lambda_1 = (f.outer)   ? 0.0 : _lambda[f.data().face_type];
@@ -59,7 +74,19 @@ namespace VMTutorial
 
     double fedges = gamma_1*P1  - lambda_1;
 
-    return fedges*(l.unit()+l1.unit());
+    Vec fvec = fedges*(l.unit()+l1.unit());
+
+    if (boundary_tension_applies(he))
+    {
+      fvec += boundary_tension * l.unit();
+    }
+
+    if (boundary_tension_applies(*he.prev()))
+    {
+      fvec += boundary_tension * l1.unit();
+    }
+
+    return fvec;
   }
 
   double ForcePerimeter::tension(const HalfEdge<Property>& he)
@@ -107,7 +134,19 @@ namespace VMTutorial
     
     double dP = P - P0;
 
-    return 0.5*gamma*dP*dP;
+    double E = 0.5*gamma*dP*dP;
+
+        
+    if (_boundary_tension_enabled)
+    {
+      for (auto he : f.circulator())
+      {
+        if (boundary_tension_applies(he))
+          E += _boundary_tension * (he.to()->r - he.from()->r).len();
+      }
+    }
+
+    return E;
     
   }
 

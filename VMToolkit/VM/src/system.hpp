@@ -87,6 +87,7 @@ namespace VMTutorial
       // System setup
       void set_box(const shared_ptr<Box>& box) { _mesh.set_box(box); }
       void read_input(const string&);
+      void write_input(const string&);
       void set_simulation_time_step(int time_step) { _time_step = time_step; }
       const string get_cell_type_name(const int type_id) const { return _cell_types_map.at(type_id); }
       const string get_vert_type_name(const int type_id) const { return _vert_types_map.at(type_id); }
@@ -113,6 +114,8 @@ namespace VMTutorial
         }
       }
       void set_topology_change(bool flag) { _topology_changed = flag; }
+      void set_edge_phi_loaded(bool flag) { _edge_phi_loaded = flag; }
+      void set_cell_phi_loaded(bool flag) { _cell_phi_loaded = flag; }
 
       // System info access 
       MyMesh& mesh()  { return _mesh; }
@@ -125,6 +128,8 @@ namespace VMTutorial
       bool periodic() { return (_mesh.box() != nullptr); }
       double& simulation_time() { return _simulation_time; }
       bool topology_change() { return _topology_changed;  }
+      bool edge_phi_loaded() const { return _edge_phi_loaded; }
+      bool cell_phi_loaded() const { return _cell_phi_loaded; }
       
     private:
       MyMesh &_mesh;
@@ -139,6 +144,8 @@ namespace VMTutorial
       int _num_junction_types; 
       bool _mesh_set;
       bool _topology_changed;  // If true, mesh topology has changed
+      bool _edge_phi_loaded = false; // If true, edge phi was restored from input
+      bool _cell_phi_loaded = false; // If true, cell phi was restored from input
 
   };
 

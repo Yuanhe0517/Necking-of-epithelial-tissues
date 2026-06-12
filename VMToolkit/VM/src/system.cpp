@@ -7,12 +7,16 @@
 
 #include "system.hpp"
 
+#include <set>
+
 namespace VMTutorial
 {
   
   // Read input from a JSON file
   void System::read_input(const string& json_file)
   {
+    _edge_phi_loaded = false;
+    _cell_phi_loaded = false;
 
     if (_mesh_set)
     {
@@ -47,6 +51,8 @@ namespace VMTutorial
     // Check for time step
     if (j["mesh"].find("time_step") != j["mesh"].end())
       _time_step = j["mesh"]["time_step"];
+    if (j["mesh"].find("simulation_time") != j["mesh"].end())
+      _simulation_time = j["mesh"]["simulation_time"];
 
     // Populate vertices
     for (int i = 0; i < j["mesh"]["vertices"].size(); i++)
@@ -99,10 +105,42 @@ namespace VMTutorial
           f.data().A0 = j["mesh"]["faces"][i]["A0"];
         if (j["mesh"]["faces"][i].find("P0") != j["mesh"]["faces"][i].end())
           f.data().P0 = j["mesh"]["faces"][i]["P0"];
+        if (j["mesh"]["faces"][i].find("phi") != j["mesh"]["faces"][i].end())
+        {
+          f.data().phi = j["mesh"]["faces"][i]["phi"];
+          _cell_phi_loaded = true;
+        }
       }
     }
     cout << "Finished reading faces." << endl;
     _mesh.tidyup();
+
+    if (j["mesh"].find("edges") != j["mesh"].end())
+    {
+      for (int i = 0; i < j["mesh"]["edges"].size(); i++)
+      {
+        int vi = j["mesh"]["edges"][i]["i"];
+        int vj = j["mesh"]["edges"][i]["j"];
+
+        auto eh = std::find_if(
+          _mesh.edges().begin(),
+          _mesh.edges().end(),
+          [vi, vj](const Edge<Property>& e) -> bool
+          {
+            return (e.i == vi && e.j == vj) || (e.i == vj && e.j == vi);
+          });
+
+        if (eh == _mesh.edges().end())
+          throw runtime_error("Failed to restore edge state for edge (" + to_string(vi) + ", " + to_string(vj) + ").");
+
+        if (j["mesh"]["edges"][i].find("phi") != j["mesh"]["edges"][i].end())
+        {
+          eh->data().phi = j["mesh"]["edges"][i]["phi"];
+          _edge_phi_loaded = true;
+        }
+      }
+    }
+
     cout << "Finished mesh setup." << endl;
     cout << "Mesh has " << _mesh.vertices().size() << " vertices " << _mesh.edges().size() << " edges and " << _mesh.faces().size() << " faces." << endl;
     //  for (int i = 0; i < _mesh.vertices().size(); i++)
@@ -133,6 +171,100 @@ namespace VMTutorial
   }
 
 
+  void System::write_input(const string& json_file)
+  {
+    json j;
+
+    if (this->periodic())
+    {
+      const auto& box = *(_mesh.box());
+      vector<double> a = {box.h._mxx, box.h._myx};
+      vector<double> b = {box.h._mxy, box.h._myy};
+      j["mesh"]["box"] = {
+        {"lx", box.h._mxx},
+        {"ly", box.h._myy},
+        {"a", a},
+        {"b", b},
+        {"periodic", true}
+      };
+    }
+
+    j["mesh"]["time_step"] = _time_step;
+    j["mesh"]["simulation_time"] = _simulation_time;
+
+    json vertices = json::array();
+    for (const auto& v : _mesh.vertices())
+    {
+      json vertex = {
+        {"id", v.id},
+        {"r", {v.r.x, v.r.y}},
+        {"type", v.data().type_name},
+        {"erased", v.erased},
+        {"boundary", v.boundary},
+        {"constraint", v.data().constraint},
+        {"velocity", {v.data().vel.x, v.data().vel.y}}
+      };
+      vertices.push_back(vertex);
+    }
+    j["mesh"]["vertices"] = vertices;
+
+    json edges = json::array();
+    std::set<std::pair<int, int>> seen_edges;
+    for (const auto& f : _mesh.faces())
+    {
+      if (f.erased)
+        continue;
+
+      for (const auto he : f.circulator())
+      {
+        int i = he.from()->id;
+        int k = he.to()->id;
+        std::pair<int, int> key = (i < k) ? std::make_pair(i, k) : std::make_pair(k, i);
+        if (!seen_edges.insert(key).second)
+          continue;
+
+        json edge = {
+          {"i", i},
+          {"j", k},
+          {"phi", he.edge()->data().phi}
+        };
+        edges.push_back(edge);
+      }
+    }
+    j["mesh"]["edges"] = edges;
+
+    json faces = json::array();
+    for (const auto& f : _mesh.faces())
+    {
+      json face = {
+        {"id", f.id},
+        {"outer", f.outer},
+        {"erased", f.erased}
+      };
+
+      if (!f.erased)
+      {
+        vector<int> verts;
+        for (const auto he : f.circulator())
+          verts.push_back(he.from()->id);
+
+        face["type"] = f.data().type_name;
+        face["A0"] = f.data().A0;
+        face["P0"] = f.data().P0;
+        face["phi"] = f.data().phi;
+        face["vertices"] = verts;
+      }
+
+      faces.push_back(face);
+    }
+    j["mesh"]["faces"] = faces;
+
+    ofstream out(json_file.c_str());
+    out << setw(2) << j << endl;
+    out.close();
+  }
+
+
   // Used to be able to make a map of MyoStore
   bool operator<(const VertexHandle<Property>& lv, const VertexHandle<Property>& rv) 
   {
@@ -156,6 +288,7 @@ namespace VMTutorial
     py::class_<Property::EdgeProperty>(m, "EdgeProperty")
       .def_readwrite("tension", &Property::EdgeProperty::tension)
       .def_readwrite("l0", &Property::EdgeProperty::l0)
+      .def_readwrite("phi", &Property::EdgeProperty::phi)
       .def_readwrite("type", &Property::EdgeProperty::edge_type);
   }
 
@@ -176,6 +309,7 @@ namespace VMTutorial
       .def_readonly("unique_id", &Property::FaceProperty::unique_id)
       .def_readwrite("A0", &Property::FaceProperty::A0)
       .def_readwrite("P0", &Property::FaceProperty::P0)
+      .def_readwrite("phi", &Property::FaceProperty::phi)
       .def_readwrite("cell_type", &Property::FaceProperty::face_type)
       .def_readwrite("n", &Property::FaceProperty::n);
   }
@@ -288,6 +422,7 @@ namespace VMTutorial
     py::class_<System>(m, "System")
       .def(py::init<MyMesh&>())
       .def("read_input", &System::read_input, py::arg("input_file"))
+      .def("write_input", &System::write_input, py::arg("output_file"))
       .def("add_cell_type", &System::add_cell_type)
       .def("set_cell_type", &System::set_cell_type)
       .def("mesh", &System::mesh)
@@ -301,4 +436,3 @@ namespace VMTutorial
 
   
 }
-

@@ -19,6 +19,7 @@
 #include <utility>
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <sys/stat.h>
 #include <regex>
 
@@ -172,6 +173,164 @@ namespace VMTutorial
 
 
 			return stress_xy;
+		}
+
+		void get_face_shape_tensor(const Face<Property> &f, double &Qxx, double &Qxy, double &Qyy)
+		{
+			Qxx = 0.0;
+			Qxy = 0.0;
+			Qyy = 0.0;
+
+			if (f.outer || f.erased)
+				return;
+
+			double P = _sys.mesh().perim(f);
+			if (P < 1e-12)
+				return;
+
+			for (auto he : f.circulator())
+			{
+				Vec e = he.to()->r - he.from()->r;
+				double lk = e.len();
+				if (lk < 1e-12)
+					continue;
+
+				Vec t = e.unit();
+				Qxx += lk * (t.x * t.x - 0.5);
+				Qxy += lk * (t.x * t.y);
+				Qyy += lk * (t.y * t.y - 0.5);
+			}
+
+			Qxx /= P;
+			Qxy /= P;
+			Qyy /= P;
+		}
+
+		double get_face_shape_qxx(const Face<Property> &f)
+		{
+			double Qxx, Qxy, Qyy;
+			get_face_shape_tensor(f, Qxx, Qxy, Qyy);
+			return Qxx;
+		}
+
+		double get_face_shape_qxy(const Face<Property> &f)
+		{
+			double Qxx, Qxy, Qyy;
+			get_face_shape_tensor(f, Qxx, Qxy, Qyy);
+			return Qxy;
+		}
+
+		double get_face_shape_anisotropy(const Face<Property> &f)
+		{
+			double Qxx, Qxy, Qyy;
+			get_face_shape_tensor(f, Qxx, Qxy, Qyy);
+			return std::sqrt(2.0 * (Qxx * Qxx + 2.0 * Qxy * Qxy + Qyy * Qyy));
+		}
+
+		double get_face_shape_theta(const Face<Property> &f)
+		{
+			double Qxx, Qxy, Qyy;
+			get_face_shape_tensor(f, Qxx, Qxy, Qyy);
+			if (std::fabs(Qxx) < 1e-12 && std::fabs(Qxy) < 1e-12 && std::fabs(Qyy) < 1e-12)
+				return 0.0;
+			return 0.5 * std::atan2(2.0 * Qxy, Qxx - Qyy);
+		}
+
+		void get_face_gyration_long_axis(const Face<Property> &f, double &g1, double &g2, double &aspect, double &theta, double &vx, double &vy)
+		{
+			g1 = 0.0;
+			g2 = 0.0;
+			aspect = 0.0;
+			theta = 0.0;
+			vx = 1.0;
+			vy = 0.0;
+
+			if (f.outer || f.erased)
+				return;
+
+			Vec rc = _sys.mesh().get_face_centroid(f);
+			double Gxx = 0.0, Gxy = 0.0, Gyy = 0.0;
+			int n = 0;
+
+			for (auto he : f.circulator())
+			{
+				Vec dr = he.from()->r - rc;
+				Gxx += dr.x * dr.x;
+				Gxy += dr.x * dr.y;
+				Gyy += dr.y * dr.y;
+				n++;
+			}
+
+			if (n == 0)
+				return;
+
+			Gxx /= static_cast<double>(n);
+			Gxy /= static_cast<double>(n);
+			Gyy /= static_cast<double>(n);
+
+			double trace = Gxx + Gyy;
+			double diff = Gxx - Gyy;
+			double discr = std::sqrt(diff * diff + 4.0 * Gxy * Gxy);
+			g1 = 0.5 * (trace + discr);
+			g2 = 0.5 * (trace - discr);
+			aspect = (g2 > 1e-12) ? g1 / g2 : 0.0;
+
+			if (discr > 1e-12)
+				theta = 0.5 * std::atan2(2.0 * Gxy, diff);
+
+			vx = std::cos(theta);
+			vy = std::sin(theta);
+		}
+
+		void get_face_hexatic_psi6(const Face<Property> &f, double &psi6_re, double &psi6_im)
+		{
+			psi6_re = 0.0;
+			psi6_im = 0.0;
+
+			if (f.outer || f.erased)
+				return;
+
+			Vec rj = _sys.mesh().get_face_centroid(f);
+			int Nj = 0;
+			for (auto he : f.circulator())
+			{
+				const Face<Property>& fk = *(he.pair()->face());
+				if (fk.outer || fk.erased)
+					continue;
+
+				Vec dr = _sys.mesh().get_face_centroid(fk) - rj;
+				double theta = std::atan2(dr.y, dr.x);
+				psi6_re += std::cos(6.0 * theta);
+				psi6_im += std::sin(6.0 * theta);
+				Nj += 1;
+			}
+
+			if (Nj > 0)
+			{
+				psi6_re /= static_cast<double>(Nj);
+				psi6_im /= static_cast<double>(Nj);
+			}
+		}
+
+		double get_face_hexatic_psi6_re(const Face<Property> &f)
+		{
+			double psi6_re, psi6_im;
+			get_face_hexatic_psi6(f, psi6_re, psi6_im);
+			return psi6_re;
+		}
+
+		double get_face_hexatic_psi6_im(const Face<Property> &f)
+		{
+			double psi6_re, psi6_im;
+			get_face_hexatic_psi6(f, psi6_re, psi6_im);
+			return psi6_im;
+		}
+
+		double get_face_hexatic_psi6_abs(const Face<Property> &f)
+		{
+			double psi6_re, psi6_im;
+			get_face_hexatic_psi6(f, psi6_re, psi6_im);
+			return std::sqrt(psi6_re * psi6_re + psi6_im * psi6_im);
 		}
 
 		//double get_face_centre

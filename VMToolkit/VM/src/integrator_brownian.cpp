@@ -18,8 +18,25 @@ namespace VMTutorial
     double mu = 1.0 / _gamma;    // mobility 
     double B = sqrt(2.0*mu*_T);
     double sqrt_dt = sqrt(_dt);
-    bool at_tensile_timestep = false;
-    //double dt_max = 10 * _dt;  
+
+    if (apply_tensile_next_step)
+    {
+      for (auto& v : _sys.mesh().vertices())
+      {
+        if (!v.erased && v.data().vert_type == 0)
+          v.r += Vec(loading_increment, 0.0);
+      }
+      apply_tensile_next_step = false;
+    }
+
+    // Stage control for boundary tension:
+    // mstep == 0: off; mstep > 0: on.
+    //_force_compute.set_flag("perimeter", "enable_boundary_tension");
+    if (mstep == 0)
+      _force_compute.set_flag("perimeter", "disable_boundary_tension");
+    else
+      _force_compute.set_flag("perimeter", "enable_boundary_tension");
+    // //double dt_max = 10 * _dt;  
     //double alpha = 0.1;  
 
     // Compute force on each vertex
@@ -42,23 +59,14 @@ namespace VMTutorial
       cout<<energy<<endl;
 
       // Initial Equilibrium
-      if (mstep==0 && abs(energy - mEnergy) < 0.0000001)//0.000000001)
+      if (abs(energy - mEnergy) < 0.0000001)//0.000000001)
       {
         mstep = mstep + 1;
-        at_tensile_timestep = true;
+        apply_tensile_next_step = true;
         std::cout<<"Equilibrium"<<mstep<<endl;
         meq = true;
-        // Broadcast meq, at_tensile_timestep to all processes
-        //MPI_Bcast(&meq, 1, MPI_INT, 0, MPI_COMM_WORLD);
-        //MPI_Bcast(&at_tensile_timestep, 1, MPI_INT, 0, MPI_COMM_WORLD);
-      }
-
-      if (!mstep==0 && abs(energy - mEnergy) < 0.0000001)
-      {
-        mstep = mstep + 1;
-        at_tensile_timestep = true;
-        std::cout<<"Equilibrium"<<mstep<<endl;
-        meq = true;
+        mEnergy = energy;
+        return;
         // Broadcast meq, at_tensile_timestep to all processes
         //MPI_Bcast(&meq, 1, MPI_INT, 0, MPI_COMM_WORLD);
         //MPI_Bcast(&at_tensile_timestep, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -80,9 +88,9 @@ namespace VMTutorial
         
         
           // apply constraint after initial equilibrium, aka, mstep > 0
-          if (_constraint_enabled && !mstep==0)
+          if (_constraint_enabled )// && mstep != 0)
           {
-            if (v.data().vert_type == 2 || v.data().vert_type == 0 )//&& !v.data().constraint == "fixed") 
+            if (v.data().vert_type == 2 || v.data().vert_type == 0 )//(v.data().vert_type == 2 || v.data().vert_type == 0 )//&& !v.data().constraint == "fixed") 
             {
               v.data().constraint = "tensile";
               //if (!(v.data().vert_type == 0 && f.x > 0))
@@ -94,24 +102,13 @@ namespace VMTutorial
 
 
           Vec rold = v.r;
-          if (at_tensile_timestep)
-          {
-            // Apply tensile stretch
-            if (v.data().vert_type == 0) v.r += Vec(0.03,0.0);
+          //v.r += _dt*f;   // deterministic part of the integrator step
+          // Vervelt
+          //Vec velocity = f;
 
-            //if (v.data().vert_type == 2) v.r += Vec(-0.03,0.0);
-            //cout<<v.r<<endl;
-          }
-          else
-          {
-            //v.r += _dt*f;   // deterministic part of the integrator step
-            // Vervelt
-            //Vec velocity = f;
-
-            //velocity = (1-_alpha)*v.r+_alpha*f.unit()*v.r.len();
-            v.r += _dt*f;
-            //_power += velocity.dot(f);
-          }
+          //velocity = (1-_alpha)*v.r+_alpha*f.unit()*v.r.len();
+          v.r += _dt*f;
+          //_power += velocity.dot(f);
 
 
           if (_T > 1.0)

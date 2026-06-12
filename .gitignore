@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build artifacts
+_skbuild/
+build/
+dist/
+*.so
+*.pyd
+*.dll
+*.dylib
+*.o
+
+# Local environments
+.venv/
+venv/
+env/
+.env
+
+# Simulation outputs
+scan_outputs*/
+outputs/
+results/
+*.vtp
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -13,6 +13,8 @@ namespace VMTutorial
   int Topology::T1()
   {
     int i = 0;
+    bool changed = false;
+
     for (auto e : _sys.mesh().edges())
     {
       if (!(e.he()->from()->data().constraint == "defect" || e.he()->to()->data().constraint == "defect"))
@@ -24,10 +26,14 @@ namespace VMTutorial
               {
                 cout<<"Finish T1"<<endl;
                 i +=1;
+                changed = true;
                 _sys.set_topology_change(true);
               }
             }
         }
+
+      if (changed) _sys.mesh().tidyup();
+
     }
     return i;
   }

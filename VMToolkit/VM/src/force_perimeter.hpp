@@ -18,7 +18,9 @@ namespace VMTutorial
 	{
 	public:
 		ForcePerimeter(System &sys) : Force{sys},
-									  _lambda_P0{false}
+									  _lambda_P0{false},
+									  _boundary_tension{0.0},
+									  _boundary_tension_enabled{false}
 		{
 			_gamma.resize(_sys.cell_types().size(), 0.0);
 			_lambda.resize(_sys.cell_types().size(), 0.0);
@@ -37,7 +39,7 @@ namespace VMTutorial
 		void set_params(const string &cell_type, const params_type &params) override
 		{
 			for (auto p : params)
-				if (p.first != "gamma" && p.first != "lambda")
+				if (p.first != "gamma" && p.first != "lambda" && p.first != "boundary_tension")
 					throw runtime_error("Unknown parameter " + p.first + ".");
 
 			if (params.find("gamma") == params.end())
@@ -56,6 +58,8 @@ namespace VMTutorial
 				int ct = _sys.cell_types()[cell_type];
 				_gamma[ct] = params.at("gamma");
 				_lambda[ct] = params.at("lambda");
+				if (params.find("boundary_tension") != params.end())
+					_boundary_tension = params.at("boundary_tension");
 			}
 			catch (const exception &e)
 			{
@@ -71,6 +75,10 @@ namespace VMTutorial
 		{
 			if (flag == "use_P0")
 				_lambda_P0 = true;
+			else if (flag == "enable_boundary_tension")
+				_boundary_tension_enabled = true;
+			else if (flag == "disable_boundary_tension")
+				_boundary_tension_enabled = false;
 			else
 				throw runtime_error("Unknown flag : " + flag + ".");
 		}
@@ -80,6 +88,8 @@ namespace VMTutorial
 		vector<double> _gamma;
 		vector<double> _lambda;
 		bool _lambda_P0; // If true, lambda will be computed as gamma*P0 where P0 is read from the input configuration
+		double _boundary_tension;
+		bool _boundary_tension_enabled;
 	};
 
 }
